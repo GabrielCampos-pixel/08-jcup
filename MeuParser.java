@@ -29,9 +29,10 @@ public class MeuParser extends java_cup.runtime.lr_parser {
   /** Production table. */
   protected static final short _production_table[][] = 
     unpackFromStrings(new String[] {
-    "\000\007\000\002\002\004\000\002\002\004\000\002\003" +
+    "\000\012\000\002\002\004\000\002\002\004\000\002\003" +
     "\005\000\002\003\005\000\002\003\004\000\002\003\005" +
-    "\000\002\003\003" });
+    "\000\002\003\005\000\002\003\005\000\002\003\005\000" +
+    "\002\003\003" });
 
   /** Access to production table. */
   public short[][] production_table() {return _production_table;}
@@ -39,18 +40,28 @@ public class MeuParser extends java_cup.runtime.lr_parser {
   /** Parse-action table. */
   protected static final short[][] _action_table = 
     unpackFromStrings(new String[] {
-    "\000\017\000\010\004\007\006\004\011\010\001\002\000" +
-    "\010\004\007\006\004\011\010\001\002\000\010\005\012" +
-    "\006\014\010\020\001\002\000\004\002\017\001\002\000" +
-    "\012\005\ufffb\006\ufffb\010\ufffb\012\ufffb\001\002\000\010" +
-    "\004\007\006\004\011\010\001\002\000\010\005\012\006" +
-    "\014\012\013\001\002\000\010\004\007\006\004\011\010" +
-    "\001\002\000\012\005\ufffc\006\ufffc\010\ufffc\012\ufffc\001" +
-    "\002\000\010\004\007\006\004\011\010\001\002\000\012" +
-    "\005\ufffe\006\ufffe\010\ufffe\012\ufffe\001\002\000\012\005" +
-    "\uffff\006\uffff\010\uffff\012\uffff\001\002\000\004\002\001" +
-    "\001\002\000\004\002\000\001\002\000\012\005\ufffd\006" +
-    "\ufffd\010\ufffd\012\ufffd\001\002" });
+    "\000\025\000\010\004\007\006\004\015\010\001\002\000" +
+    "\010\004\007\006\004\015\010\001\002\000\016\005\012" +
+    "\006\015\010\014\011\016\012\017\014\026\001\002\000" +
+    "\004\002\025\001\002\000\020\005\ufff8\006\ufff8\010\ufff8" +
+    "\011\ufff8\012\ufff8\014\ufff8\016\ufff8\001\002\000\010\004" +
+    "\007\006\004\015\010\001\002\000\016\005\012\006\015" +
+    "\010\014\011\016\012\017\016\013\001\002\000\010\004" +
+    "\007\006\004\015\010\001\002\000\020\005\ufff9\006\ufff9" +
+    "\010\ufff9\011\ufff9\012\ufff9\014\ufff9\016\ufff9\001\002\000" +
+    "\010\004\007\006\004\015\010\001\002\000\010\004\007" +
+    "\006\004\015\010\001\002\000\010\004\007\006\004\015" +
+    "\010\001\002\000\010\004\007\006\004\015\010\001\002" +
+    "\000\020\005\ufffa\006\ufffa\010\ufffa\011\ufffa\012\ufffa\014" +
+    "\ufffa\016\ufffa\001\002\000\020\005\ufffb\006\ufffb\010\ufffb" +
+    "\011\ufffb\012\ufffb\014\ufffb\016\ufffb\001\002\000\020\005" +
+    "\ufffe\006\ufffe\010\ufffe\011\ufffe\012\ufffe\014\ufffe\016\ufffe" +
+    "\001\002\000\020\005\ufffc\006\ufffc\010\ufffc\011\ufffc\012" +
+    "\ufffc\014\ufffc\016\ufffc\001\002\000\020\005\uffff\006\uffff" +
+    "\010\uffff\011\uffff\012\uffff\014\uffff\016\uffff\001\002\000" +
+    "\004\002\001\001\002\000\004\002\000\001\002\000\020" +
+    "\005\ufffd\006\ufffd\010\ufffd\011\ufffd\012\ufffd\014\ufffd\016" +
+    "\ufffd\001\002" });
 
   /** Access to parse-action table. */
   public short[][] action_table() {return _action_table;}
@@ -58,12 +69,15 @@ public class MeuParser extends java_cup.runtime.lr_parser {
   /** <code>reduce_goto</code> table. */
   protected static final short[][] _reduce_table = 
     unpackFromStrings(new String[] {
-    "\000\017\000\006\002\005\003\004\001\001\000\004\003" +
-    "\020\001\001\000\002\001\001\000\002\001\001\000\002" +
+    "\000\025\000\006\002\005\003\004\001\001\000\004\003" +
+    "\026\001\001\000\002\001\001\000\002\001\001\000\002" +
     "\001\001\000\004\003\010\001\001\000\002\001\001\000" +
-    "\004\003\015\001\001\000\002\001\001\000\004\003\014" +
+    "\004\003\023\001\001\000\002\001\001\000\004\003\022" +
+    "\001\001\000\004\003\021\001\001\000\004\003\020\001" +
+    "\001\000\004\003\017\001\001\000\002\001\001\000\002" +
     "\001\001\000\002\001\001\000\002\001\001\000\002\001" +
-    "\001\000\002\001\001\000\002\001\001" });
+    "\001\000\002\001\001\000\002\001\001\000\002\001\001" +
+    "" });
 
   /** Access to <code>reduce_goto</code> table. */
   public short[][] reduce_table() {return _reduce_table;}
@@ -140,6 +154,22 @@ class CUP$MeuParser$actions {
 
   private Integer inverterSinal(Integer a) {
     return -a;
+  }
+
+  private Integer multiplica(Integer a, Integer b) {
+    return a.intValue() * b.intValue();
+  }
+
+  private Integer divide(Integer a, Integer b) {
+    return a.intValue() / b.intValue();
+  }
+
+  private Integer resto(Integer a, Integer b) {
+    return a.intValue() % b.intValue();
+  }
+
+  private Integer potencia(Integer a, Integer b) {
+    return (int) Math.pow(a.intValue(), b.intValue());
   }
 
   private final MeuParser parser;
@@ -232,7 +262,52 @@ class CUP$MeuParser$actions {
           return CUP$MeuParser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 5: // expr ::= PARENTESQ expr PARENTDIR 
+          case 5: // expr ::= expr MULTIPLICA expr 
+            {
+              Integer RESULT =null;
+		int aleft = ((java_cup.runtime.Symbol)CUP$MeuParser$stack.elementAt(CUP$MeuParser$top-2)).left;
+		int aright = ((java_cup.runtime.Symbol)CUP$MeuParser$stack.elementAt(CUP$MeuParser$top-2)).right;
+		Integer a = (Integer)((java_cup.runtime.Symbol) CUP$MeuParser$stack.elementAt(CUP$MeuParser$top-2)).value;
+		int bleft = ((java_cup.runtime.Symbol)CUP$MeuParser$stack.peek()).left;
+		int bright = ((java_cup.runtime.Symbol)CUP$MeuParser$stack.peek()).right;
+		Integer b = (Integer)((java_cup.runtime.Symbol) CUP$MeuParser$stack.peek()).value;
+		 RESULT = multiplica(a, b); 
+              CUP$MeuParser$result = parser.getSymbolFactory().newSymbol("expr",1, ((java_cup.runtime.Symbol)CUP$MeuParser$stack.elementAt(CUP$MeuParser$top-2)), ((java_cup.runtime.Symbol)CUP$MeuParser$stack.peek()), RESULT);
+            }
+          return CUP$MeuParser$result;
+
+          /*. . . . . . . . . . . . . . . . . . . .*/
+          case 6: // expr ::= expr DIVIDE expr 
+            {
+              Integer RESULT =null;
+		int aleft = ((java_cup.runtime.Symbol)CUP$MeuParser$stack.elementAt(CUP$MeuParser$top-2)).left;
+		int aright = ((java_cup.runtime.Symbol)CUP$MeuParser$stack.elementAt(CUP$MeuParser$top-2)).right;
+		Integer a = (Integer)((java_cup.runtime.Symbol) CUP$MeuParser$stack.elementAt(CUP$MeuParser$top-2)).value;
+		int bleft = ((java_cup.runtime.Symbol)CUP$MeuParser$stack.peek()).left;
+		int bright = ((java_cup.runtime.Symbol)CUP$MeuParser$stack.peek()).right;
+		Integer b = (Integer)((java_cup.runtime.Symbol) CUP$MeuParser$stack.peek()).value;
+		 RESULT = divide(a, b); 
+              CUP$MeuParser$result = parser.getSymbolFactory().newSymbol("expr",1, ((java_cup.runtime.Symbol)CUP$MeuParser$stack.elementAt(CUP$MeuParser$top-2)), ((java_cup.runtime.Symbol)CUP$MeuParser$stack.peek()), RESULT);
+            }
+          return CUP$MeuParser$result;
+
+          /*. . . . . . . . . . . . . . . . . . . .*/
+          case 7: // expr ::= expr RESTO expr 
+            {
+              Integer RESULT =null;
+		int aleft = ((java_cup.runtime.Symbol)CUP$MeuParser$stack.elementAt(CUP$MeuParser$top-2)).left;
+		int aright = ((java_cup.runtime.Symbol)CUP$MeuParser$stack.elementAt(CUP$MeuParser$top-2)).right;
+		Integer a = (Integer)((java_cup.runtime.Symbol) CUP$MeuParser$stack.elementAt(CUP$MeuParser$top-2)).value;
+		int bleft = ((java_cup.runtime.Symbol)CUP$MeuParser$stack.peek()).left;
+		int bright = ((java_cup.runtime.Symbol)CUP$MeuParser$stack.peek()).right;
+		Integer b = (Integer)((java_cup.runtime.Symbol) CUP$MeuParser$stack.peek()).value;
+		 RESULT = resto(a, b); 
+              CUP$MeuParser$result = parser.getSymbolFactory().newSymbol("expr",1, ((java_cup.runtime.Symbol)CUP$MeuParser$stack.elementAt(CUP$MeuParser$top-2)), ((java_cup.runtime.Symbol)CUP$MeuParser$stack.peek()), RESULT);
+            }
+          return CUP$MeuParser$result;
+
+          /*. . . . . . . . . . . . . . . . . . . .*/
+          case 8: // expr ::= PARENTESQ expr PARENTDIR 
             {
               Integer RESULT =null;
 		int aleft = ((java_cup.runtime.Symbol)CUP$MeuParser$stack.elementAt(CUP$MeuParser$top-1)).left;
@@ -244,7 +319,7 @@ class CUP$MeuParser$actions {
           return CUP$MeuParser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 6: // expr ::= INTEIRO 
+          case 9: // expr ::= INTEIRO 
             {
               Integer RESULT =null;
 		int aleft = ((java_cup.runtime.Symbol)CUP$MeuParser$stack.peek()).left;
