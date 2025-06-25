@@ -50,18 +50,35 @@ action code {:
   private Integer inverterSinal(Integer a) {
     return -a;
   }
+
+  private Integer multiplicar(Integer a, Integer b) {
+    return a.intValue() * b.intValue();
+  }
+  
+  private Integer divide(Integer a, Integer b) {
+    return a.intValue() / b.intValue();
+  }
+  
+  private Integer resto(Integer a, Integer b) {
+    return a.intValue() % b.intValue();
+  }
+  
+  private Integer potencia(Integer a, Integer b) {
+    return (int) Math.pow(a.intValue(), b.intValue());
+  }
 :}
 
 terminal Integer INTEIRO;
-terminal MAIS, MENOS, MENOSUNARIO, PTVIRG, PARENTESQ, PARENTDIR;
+terminal MAIS, MENOS, MENOSUNARIO, MULTIPLICA, DIVIDE, POTENCIA, RESTO, PTVIRG, PARENTESQ, PARENTDIR;
 
 non terminal inicio;
 non terminal Integer expr;
 
-precedence left MAIS, MENOS;
-precedence right MENOSUNARIO; // Menos unário com maior precedência, associatividade à direita.
+precedence left MAIS, MENOS, MULTIPLICA, DIVIDE, RESTO;
+precedence right MENOSUNARIO, POTENCIA; // Menos unário com maior precedência, associatividade à direita.
 
 start with inicio;
+
 
 inicio ::= expr:e PTVIRG {: System.out.println(e + " (Arquivo: " + nomeDoArquivo + ")"); :}
          ;
@@ -71,6 +88,10 @@ expr ::= expr:a MAIS expr:b             {: RESULT = somar(a, b); :}
        | MENOS expr:a                   {: RESULT = inverterSinal(a); :} %prec MENOSUNARIO       
        | PARENTESQ expr:a PARENTDIR     {: RESULT = a.intValue(); :}
        | INTEIRO:a                      {: RESULT = a.intValue(); :}
+       | expr:a MULTIPLICA expr:b       {: RESULT = multiplicar(a, b); :}
+       | expr:a DIVIDE expr:b           {: RESULT = divide(a, b); :}
+       | expr:a RESTO expr:b            {: RESULT = resto(a, b); :}
+       | expr:a POTENCIA expr:b         {: RESULT = potencia(a, b); :}
        ;
 
 /*
