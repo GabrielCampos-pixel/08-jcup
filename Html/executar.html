@@ -1,0 +1,45 @@
+#!/bin/bash
+
+# --- Limpar arquivos gerados anteriormente ---
+echo "--- Limpando arquivos gerados (.class, .java, .jar) ---"
+rm -f *.class *.java *.jar
+rm -f HtmlLexer.java HtmlParser.java sym.java
+
+# --- Baixar JFlex e CUP (se necessário) ---
+echo ""
+echo "--- Baixando JFlex e CUP (se necessário) ---"
+# O wget -nc garante que o download só aconteça se o arquivo não existir
+wget -nc https://repo1.maven.org/maven2/de/jflex/jflex/1.8.2/jflex-1.8.2.jar -O jflex-1.8.2.jar
+wget -nc https://repo1.maven.org/maven2/com/github/vbmacher/java-cup/11b-20160615/java-cup-11b-20160615.jar -O java-cup-11b.jar
+
+# --- Definir o classpath ---
+CLASSPATH=".:jflex-1.8.2.jar:java-cup-11b.jar"
+
+# --- Gerar o Analisador Sintático PRIMEIRO ---
+echo ""
+echo "--- Gerando o Analisador Sintático a partir de HTML.cup ---"
+# O CUP gera o arquivo sym.java, que o JFlex precisa
+java -cp "$CLASSPATH" java_cup.Main -parser HtmlParser -symbols sym HTML.cup
+
+# --- Gerar o Analisador Léxico DEPOIS ---
+echo ""
+echo "--- Gerando o Analisador Léxico a partir de HTML.flex ---"
+# O JFlex precisa da classe sym
+java -cp "$CLASSPATH" jflex.Main HTML.flex
+
+# --- Compilar as classes .java ---
+echo ""
+echo "--- Compilando os arquivos .java gerados ---"
+javac -cp "$CLASSPATH" *.java
+
+# --- Executar a classe principal ---
+echo ""
+echo "--- Executando o Parser com o arquivo de entrada ---"
+# Cria um arquivo de entrada de exemplo
+echo '<a href="https://www.google.com">Google</a>' > entrada_a.txt
+
+echo "Testando entrada_a.txt:"
+java -cp "$CLASSPATH" HtmlParser entrada_a.txt
+
+echo ""
+echo "--- Execução concluída! ---"

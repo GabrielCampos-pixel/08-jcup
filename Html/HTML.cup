@@ -1,0 +1,47 @@
+import java_cup.runtime.*;
+
+parser code {:
+    public static void main(String[] args) throws Exception {
+        new HtmlParser(new HtmlLexer(new java.io.FileReader(args[0]))).parse();
+    }
+:};
+
+terminal ABRE_TAG, FECHA_TAG, FECHA_TAG_VAZIA, IGUAL, ASPAS, BARRA; // <--- Adicione BARRA
+terminal TAG_A, TAG_IMG, ATTR_HREF, ATTR_SRC;
+terminal String TEXTO;
+
+non terminal String html_doc, tag_completa, tag_vazia, tag, atributos, atributo, valor_atributo;
+
+// --- Regras de Produção ---
+start with html_doc;
+
+html_doc ::= tag_completa | tag_vazia;
+
+// --- CORREÇÃO AQUI ---
+// Use o novo token BARRA
+tag_completa ::= ABRE_TAG tag:t atributos:a FECHA_TAG TEXTO:conteudo ABRE_TAG BARRA tag:t2 FECHA_TAG
+                 {:
+                    // Verifica se a tag de abertura e fechamento correspondem
+                    if (!t.equals(t2)) {
+                        System.err.println("Erro: A tag de fechamento não corresponde à de abertura.");
+                    }
+                    RESULT = "<" + t + " " + a + ">" + conteudo + "</" + t2 + ">";
+                    System.out.println("Tag completa reconhecida: " + RESULT);
+                 :};
+
+tag_vazia ::= ABRE_TAG tag:t atributos:a FECHA_TAG_VAZIA
+              {:
+                 RESULT = "<" + t + " " + a + "/>";
+                 System.out.println("Tag vazia reconhecida: " + RESULT);
+              :};
+
+tag ::= TAG_A:t {: RESULT = "a"; :}
+      | TAG_IMG:t {: RESULT = "img"; :};
+
+atributos ::= atributo:a atributos:attrs {: RESULT = a + " " + attrs; :}
+            | /* epsilon */ {: RESULT = ""; :};
+
+atributo ::= ATTR_HREF IGUAL valor_atributo:v {: RESULT = "href=" + v; :}
+           | ATTR_SRC IGUAL valor_atributo:v {: RESULT = "src=" + v; :};
+
+valor_atributo ::= ASPAS TEXTO:v ASPAS {: RESULT = "\"" + v + "\""; :};
