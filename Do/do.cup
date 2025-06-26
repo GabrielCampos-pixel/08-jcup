@@ -1,0 +1,22 @@
+import java_cup.runtime.*;
+
+parser code {:
+    public static void main(String[] args) throws Exception {
+        new DoParser(new DoLexer(new java.io.FileReader(args[0]))).parse();
+    }
+:};
+
+terminal DO, OUT, COLCHETEESQ, COLCHETEDIR, PTVIRG, IGUAL, MENOR, MAISMAIS, PARENTEESQ, PARENTEDIR;
+terminal String ID;
+terminal Integer INTEIRO;
+
+non terminal String programa, atribuicao, condicao, incremento, comando_out, expressao_do;
+
+start with programa;
+programa ::= DO COLCHETEESQ atribuicao:i PTVIRG condicao:c PTVIRG incremento:inc COLCHETEDIR comando_out:b
+             {: RESULT = "for (" + i + "; " + c + "; " + inc + ") {\n    " + b + "\n}"; :};
+atribuicao  ::= ID:i IGUAL expressao_do:e {: RESULT = "int " + i + " = " + e; :};
+condicao    ::= expressao_do:e1 MENOR expressao_do:e2 {: RESULT = e1 + " < " + e2; :};
+incremento  ::= ID:i MAISMAIS          {: RESULT = i + "++"; :};
+comando_out ::= OUT PARENTEESQ expressao_do:e PARENTEDIR {: RESULT = "System.out.println(" + e + ");"; :};
+expressao_do::= ID:i {: RESULT = i; :} | INTEIRO:n {: RESULT = n.toString(); :};
