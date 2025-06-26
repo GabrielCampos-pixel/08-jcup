@@ -12,13 +12,10 @@ terminal String TEXTO;
 
 non terminal String html_doc, tag_completa, tag_vazia, tag, atributos, atributo, valor_atributo;
 
-// --- Regras de Produção ---
 start with html_doc;
 
 html_doc ::= tag_completa | tag_vazia;
 
-// --- CORREÇÃO AQUI ---
-// Use o novo token BARRA
 tag_completa ::= ABRE_TAG tag:t atributos:a FECHA_TAG TEXTO:conteudo ABRE_TAG BARRA tag:t2 FECHA_TAG
                  {:
                     // Verifica se a tag de abertura e fechamento correspondem

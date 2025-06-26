@@ -6,7 +6,6 @@ import java_cup.runtime.Symbol;
 %class HtmlLexer
 %line
 %column
-// Declara um novo estado de análise para lidar com strings entre aspas
 %state DENTRO_ASPAS 
 
 %{
@@ -16,12 +15,9 @@ import java_cup.runtime.Symbol;
 
 %%
 
-// --- Regras para o estado inicial (fora das aspas) ---
 <YYINITIAL> {
-    // Espaços em branco (primeira regra a ser ignorada)
     [ \t\r\n]+         { /* Ignora */ }
 
-    // Tokens de Estrutura e Literais
     "<"                { return new Symbol(sym.ABRE_TAG); }
     ">"                { return new Symbol(sym.FECHA_TAG); }
     "/>"               { return new Symbol(sym.FECHA_TAG_VAZIA); }
@@ -29,16 +25,13 @@ import java_cup.runtime.Symbol;
     "\""               { return new Symbol(sym.ASPAS); }
     "/"                { return new Symbol(sym.BARRA); }
 
-    // Tags e atributos literais
     "a"                { return new Symbol(sym.TAG_A); }
     "img"              { return new Symbol(sym.TAG_IMG); }
     "href"             { return new Symbol(sym.ATTR_HREF); }
     "src"              { return new Symbol(sym.ATTR_SRC); } // <--- CORRIGIDO AQUI!
 
-    // Conteúdo de texto (tudo que não for um delimitador de tag ou aspas)
     [^\<\>\"]+         { return new Symbol(sym.TEXTO, yytext()); }
 
-    // Caractere inválido
     .                  { System.err.println("Caractere inválido: " + yytext()); }
 }
 
@@ -47,7 +40,6 @@ import java_cup.runtime.Symbol;
     // Aspas de fechamento: volta para o estado inicial
     "\""               { yybegin(YYINITIAL); return new Symbol(sym.ASPAS); }
 
-    // Conteúdo do atributo (qualquer caractere que não seja uma aspa)
     [^\"]+             { return new Symbol(sym.TEXTO, yytext()); }
 }
 
